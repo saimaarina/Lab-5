@@ -131,3 +131,46 @@ dn_lq_ak <- dn_lq_ak %>%
 ```
 
 ### Exercise 8
+
+``` r
+dn_min_ak <- dn_lq_ak %>%
+  group_by(address.x) %>%       
+  summarize(min_distance = min(distance))
+```
+
+``` r
+ggplot(dn_min_ak, aes (x = min_distance)) +
+  geom_histogram(binwidth = 2) +
+  labs(
+    x = "Distance(minimum) to nearest La Quinta Location (km)",
+    y = "Number of Denny's Locations",
+    title = "Distance to Nearest La Quinta Location for Denny's in Alaska"
+  )
+```
+
+![](lab-05_files/figure-gfm/-%20distribution%20of%20distances%20in%20AK-1.png)<!-- -->
+
+``` r
+dn_min_ak %>%
+  summarize(
+    n      = n(),
+    mean   = mean(min_distance),
+    sd     = sd(min_distance),
+    median = median(min_distance),
+    min    = min(min_distance),
+    max    = max(min_distance)
+  )
+```
+
+    ## # A tibble: 1 × 6
+    ##       n  mean    sd median   min   max
+    ##   <int> <dbl> <dbl>  <dbl> <dbl> <dbl>
+    ## 1     3  4.41  2.10   5.20  2.04  6.00
+
+The distribution of distances from Denny’s to the nearest La Quinta in
+Alaska is skewed to the left, with one Denny’s about 2 km away and the
+others about 6 km away.
+
+### Exercise 9
+
+### Exercise 10
