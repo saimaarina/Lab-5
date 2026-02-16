@@ -173,4 +173,66 @@ others about 6 km away.
 
 ### Exercise 9
 
+``` r
+dn_nc <- dennys %>%      
+  filter(state == "NC")
+ lq_nc <- laquinta %>%
+   filter(state == "NC")
+ 
+dn_lq_nc <- full_join(dn_nc, lq_nc,
+                      by = "state"
+)
+```
+
+    ## Warning in full_join(dn_nc, lq_nc, by = "state"): Detected an unexpected many-to-many relationship between `x` and `y`.
+    ## ℹ Row 1 of `x` matches multiple rows in `y`.
+    ## ℹ Row 1 of `y` matches multiple rows in `x`.
+    ## ℹ If a many-to-many relationship is expected, set `relationship =
+    ##   "many-to-many"` to silence this warning.
+
+``` r
+dn_lq_nc <- dn_lq_nc %>% 
+  mutate(distance = haversine(longitude.x, latitude.x, longitude.y, latitude.y, round = 3))
+
+
+dn_lq_nc <- dn_lq_nc %>% 
+  group_by(address.x) %>% 
+  mutate(min_distance = min(distance)) 
+
+dn_min_nc <- dn_lq_nc %>%
+  group_by(address.x) %>%       
+  summarize(min_distance = min(distance))
+
+ggplot(dn_min_nc, aes (x = min_distance)) +
+  geom_histogram(binwidth = 10) +
+  labs(
+    x = "Distance(minimum) to nearest La Quinta Location (km)",
+    y = "Number of Denny's Locations",
+    title = "Distance to Nearest La Quinta Location for Denny's in North Carolina"
+  )
+```
+
+![](lab-05_files/figure-gfm/-%20analyzing%20NC-1.png)<!-- -->
+
+``` r
+dn_min_nc %>%
+  summarize(
+    n      = n(),
+    mean   = mean(min_distance),
+    sd     = sd(min_distance),
+    median = median(min_distance),
+    min    = min(min_distance),
+    max    = max(min_distance)
+  )
+```
+
+    ## # A tibble: 1 × 6
+    ##       n  mean    sd median   min   max
+    ##   <int> <dbl> <dbl>  <dbl> <dbl> <dbl>
+    ## 1    28  65.4  53.4   53.5  1.78  188.
+
+The distribution of distances from Denny’s to the nearest La Quinta in
+North Carolina is skewed to the right, with most Denny’s within 80 km
+away and a few others about much farther away, over 150 km.
+
 ### Exercise 10
