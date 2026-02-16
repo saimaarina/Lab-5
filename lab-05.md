@@ -364,3 +364,10 @@ New York is skewed to the right, with most Denny’s within 30 km and
 others that are over 50 km away.
 
 ### Exercise 12
+
+Hedberg’s joke is most likely to be true in Texas, since the histogram
+shows that it holds the strongest concentration of Denny’s locations
+within a small distance (in this case 0-10 km) of a La Quinta location.
+There are few locations that are farther in relation to the cluster,
+which is indicative of close pairings. Other states have distance
+distributions that are wider and have a larger spread.
