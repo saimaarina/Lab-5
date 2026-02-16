@@ -117,6 +117,9 @@ haversine <- function(long1, lat1, long2, lat2, round = 3) {
 
 ### Exercise 6
 
-…
+``` r
+dn_lq_ak <- dn_lq_ak %>% 
+  mutate(distance = haversine(longitude.x, latitude.x, longitude.y, latitude.y, round = 3))
+```
 
-Add exercise headings as needed.
+### Exercise 7
