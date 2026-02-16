@@ -77,7 +77,21 @@ dn_lq_ak
 
 ### Exercise 4
 
-…
+``` r
+nrow(dn_lq_ak)
+```
+
+    ## [1] 6
+
+``` r
+ncol(dn_lq_ak)
+```
+
+    ## [1] 11
+
+There are 6 observations in the joined data frame. The names of the
+variables in this data frame is: address, city, state, zip, longitude,
+and latitude.
 
 ### Exercise 5
 
