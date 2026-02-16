@@ -300,3 +300,67 @@ Texas is skewed to the right, with most Denny’s within 10 km and only a
 few others that are over 20 km away.
 
 ### Exercise 11
+
+``` r
+dn_ny <- dennys %>%      
+  filter(state == "NY")
+ lq_ny <- laquinta %>%
+   filter(state == "NY")
+ 
+dn_lq_ny <- full_join(dn_ny, lq_ny,
+                      by = "state"
+)
+```
+
+    ## Warning in full_join(dn_ny, lq_ny, by = "state"): Detected an unexpected many-to-many relationship between `x` and `y`.
+    ## ℹ Row 1 of `x` matches multiple rows in `y`.
+    ## ℹ Row 1 of `y` matches multiple rows in `x`.
+    ## ℹ If a many-to-many relationship is expected, set `relationship =
+    ##   "many-to-many"` to silence this warning.
+
+``` r
+dn_lq_ny <- dn_lq_ny %>% 
+  mutate(distance = haversine(longitude.x, latitude.x, longitude.y, latitude.y, round = 3))
+
+
+dn_lq_ny <- dn_lq_ny %>% 
+  group_by(address.x) %>% 
+  mutate(min_distance = min(distance)) 
+
+dn_min_ny <- dn_lq_ny %>%
+  group_by(address.x) %>%       
+  summarize(min_distance = min(distance))
+
+ggplot(dn_min_ny, aes (x = min_distance)) +
+  geom_histogram(binwidth = 10) +
+  labs(
+    x = "Distance(minimum) to nearest La Quinta Location (km)",
+    y = "Number of Denny's Locations",
+    title = "Distance to Nearest La Quinta Location for Denny's in New York"
+  )
+```
+
+![](lab-05_files/figure-gfm/-%20analyzing%20NY-1.png)<!-- -->
+
+``` r
+dn_min_ny %>%
+  summarize(
+    n      = n(),
+    mean   = mean(min_distance),
+    sd     = sd(min_distance),
+    median = median(min_distance),
+    min    = min(min_distance),
+    max    = max(min_distance)
+  )
+```
+
+    ## # A tibble: 1 × 6
+    ##       n  mean    sd median   min   max
+    ##   <int> <dbl> <dbl>  <dbl> <dbl> <dbl>
+    ## 1    56  33.6  28.7   24.2  1.28  99.0
+
+The distribution of distances from Denny’s to the nearest La Quinta in
+New York is skewed to the right, with most Denny’s within 30 km and
+others that are over 50 km away.
+
+### Exercise 12
