@@ -123,3 +123,11 @@ dn_lq_ak <- dn_lq_ak %>%
 ```
 
 ### Exercise 7
+
+``` r
+dn_lq_ak <- dn_lq_ak %>% 
+  group_by(address.x) %>% 
+  mutate(min_distance = min(distance)) 
+```
+
+### Exercise 8

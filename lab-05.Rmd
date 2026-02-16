@@ -92,4 +92,12 @@ dn_lq_ak <- dn_lq_ak %>%
 
 ### Exercise 7
 
+```{r - calculate minimum distances between locations}
+dn_lq_ak <- dn_lq_ak %>% 
+  group_by(address.x) %>% 
+  mutate(min_distance = min(distance)) 
+```
+
+### Exercise 8
+
 
